@@ -1,0 +1,38 @@
+{
+  "name": "vincedgy_portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "Node.js",
+    "application"
+  ],
+  "author": {
+    "name": "VinceDgy",
+    "email": "vincent.dagoury@gmail.com",
+    "url": "http://portfolio-vincedgy.rhcloud.com"
+  },
+  "homepage": "https://github.com/vincedgy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openshift/origin-server"
+  },
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "express": "*"
+  },
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-less": "*",
+    "gulp-coffee": "*",
+    "gulp-concat": "*",
+    "gulp-uglify": "*",
+    "gulp-imagemin": "*",
+    "gulp-sourcemaps": "*"
+  },
+  "bundleDependencies": [],
+  "private": true,
+  "main": "server.js"
+}
