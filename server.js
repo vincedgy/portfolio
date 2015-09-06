@@ -103,7 +103,6 @@ var SampleApp = function() {
             res.send(self.cache_get('public/index.html') );
         };
 
-
     };
 
 
@@ -116,8 +115,8 @@ var SampleApp = function() {
         self.app = express();
 
         // Add static content
-        self.app.use(express.static("public"));
-
+        self.app.use(express.static('public'));
+        
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
             console.log("Adding route " + r + " for " +  self.routes[r]);
