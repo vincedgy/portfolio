@@ -9,17 +9,22 @@ fully gulp scripted (you edit src and debug minified public)
 
 # Installation
 
+```
 $ npm install
 $ bower install
+```
 
 # Developp
 
-# in one window launch gulp (compiles/minify the whole project)
+- in one window launch gulp (compiles/minify the whole project)
+```
 $ gulp
+```
 
 # in another window launch the server (install nodemon as needed)
-nodemon server.js
-
+```
+$ nodemon server.js
+```
 
 /!\ Set proxy for http et https :
 
