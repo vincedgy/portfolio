@@ -12,6 +12,10 @@
 @border-dark: #0f0f0f;
 @primarycolor-fg : #4c7fc5;
 
+@button-bg : #4c7fc5;
+@button-border : #3060a0;
+@button-bg-hover : #4070c0;
+
 @animation-delay : 0.5s;
 
 
@@ -587,6 +591,8 @@ img {
 
 .top-title {
   left: 43%;
+  font-weight: bolder;
+  color: @MainForeColor_1;
 }
 
 #hello {
@@ -712,7 +718,7 @@ img {
 
 .btn-nav li > a:hover, a.btn:hover {
   color: @white;
-  background: #263166;
+  background: @button-bg-hover;
 }
 
 .sugar-container .btn-nav li > a, .sugar-container .btn {
@@ -846,7 +852,7 @@ input, textarea {
 }
 
 button {
-  font-size: 15px;
+  /* font-size: 15px; */
 }
 
 textarea {
@@ -861,9 +867,9 @@ form label {
 }
 
 form button.btn {
-  border: none;
+  /*border: none;*/
   margin-left: 20%;
-  cursor: pointer;
+   cursor: pointer;
 }
 
 ::-webkit-input-placeholder {
@@ -1455,4 +1461,51 @@ input.error, textarea.error {
 /* Landscape phones and down */
 @media (max-width: 480px) {
 
+}
+
+
+
+/* Amzing buttons */
+
+.animate
+{
+  transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+  position: relative;
+  padding: 10px 40px;
+  margin: 0px 10px 10px 0px;
+  /*float: left;*/
+  border-radius: 10px;
+  /*font-family: 'Pacifico', cursive;
+  font-size: 25px;*/
+  color: #FFF;
+  text-decoration: none;
+}
+
+.action-scroll-up {
+padding: 5px 5px;
+}
+
+.blue
+{
+  background-color: @button-bg;
+  border-bottom: 4px solid @button-border;
+  text-shadow: 0px -2px @button-border;
+}
+
+.action-button:active
+{
+  transform: translate(0px,5px);
+  -webkit-transform: translate(0px,5px);
+  border-bottom: 1px solid;
+}
+
+.action-scroll-up:active {
+  transform: translate(0px,5px);
+  -webkit-transform: translate(0px,5px);
+  border-bottom: 1px solid;
 }
