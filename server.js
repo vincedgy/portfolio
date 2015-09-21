@@ -140,8 +140,6 @@ var SampleApp = function () {
 
         // Add POST routes for Sending email
         self.app.post('/email', function (req, res) {
-            console.log("Sending email : " + req.body);
-
             var emailto = req.body.emailto;
             var websitename = req.body.websitename;
             var formName = req.body.formName;
@@ -156,7 +154,7 @@ var SampleApp = function () {
 
             function sendEmailSuccess(message) {
                 console.log('Message sent: ' + message);
-                res.status(200);
+                res.status(200).send('Email sent');
             }
 
             return sendEmail.send(sendEmailError, emailto, websitename, formName, formEmail, formSubject, formMessage, sendEmailSuccess);

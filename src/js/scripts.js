@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
      * 		   @richardshepherd
      */
 
-/* ---- */
+    /* ---- */
     /* fader links */
     $('img.fader, .fader img')
         .css('opacity', .6)
@@ -205,9 +205,9 @@ jQuery(document).ready(function ($) {
             containerWidth = this.element.width();
 
             this.masonry.columnWidth = this.options.masonry && this.options.masonry.columnWidth ||
-                // or use the size of the first item
+                    // or use the size of the first item
                 this.$filteredAtoms.outerWidth(true) ||
-                // if there's no items, use size of container
+                    // if there's no items, use size of container
                 containerWidth;
 
             this.masonry.columnWidth += gutter;
@@ -432,7 +432,7 @@ jQuery(document).ready(function ($) {
 
     /******** FUNCTIONS ********/
 
-        // trim function for fields parsing
+    // trim function for fields parsing
     function trim(myString) {
         return myString.replace(/^\s+/g, '').replace(/\s+$/g, '')
     }
