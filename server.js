@@ -149,12 +149,12 @@ var SampleApp = function () {
 
             function sendEmailError(err) {
                 console.error(err);
-                return res.status(500).send('Impossible to send mail');
+                return res.status(500).send('Impossible to send mail :' + err);
             }
 
             function sendEmailSuccess(message) {
-                console.log('Message sent: ' + message);
-                res.status(200).send('Email sent');
+                console.log(message);
+                res.status(200).send('Email sent ' + message);
             }
 
             return sendEmail.send(sendEmailError, emailto, websitename, formName, formEmail, formSubject, formMessage, sendEmailSuccess);
