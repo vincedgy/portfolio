@@ -1,38 +1,48 @@
 #!/bin/env node
-//  OpenShift sample Node application
-var express = require('express');
-var fs = require('fs');
-var sendEmail = require('./sendEmail.js');
-var bodyParser = require('body-parser');
+/*-----------------------------------------------------------------------
+server (express v4)
+
+http/https server with session
+
+ -----------------------------------------------------------------------
+ */
+
+var express = require('express'),
+    session = require('express-session'),
+    FileStore = require('session-file-store')(session),
+    bodyParser = require('body-parser'),
+    http = require('http'),
+    https = require('https'),
+    cookieParser = require('cookie-parser'),
+    fs = require('fs'),
+    router = express.Router(),
+    path = require('path'),
+    errorhandler = require('errorhandler'),
+    //favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    ejs = require('ejs');
+
+
+var CONFIG = require(path.join(__dirname,'server/config'));
+
 
 /**
- *  Define the sample application.
+ * ServerApp : defines the whole server
+ * @constructor
  */
-var SampleApp = function () {
-    //  Scope.
+var ServerApp = function () {
+
     var self = this;
 
-    /*  ================================================================  */
-    /*  Helper functions.                                                 */
-    /*  ================================================================  */
-
     /**
-     *  Set up server IP address and port # using env variables/defaults.
+     * Get configuration from env and CONFIG
      */
     self.setupVariables = function () {
         //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-
-        if (typeof self.ipaddress === "undefined") {
-            //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-            //  allows us to run/test the app locally.
-            console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-            self.ipaddress = "127.0.0.1";
-        }
-        ;
+        self.ipaddress = process.env.HOSTNAME || "127.0.0.1";
+        self.http_port = CONFIG.HTTP_PORT || 8080;
+        self.https_port = CONFIG.HTTPS_PORT || 443;
     };
-
 
     /**
      *  Populate the cache.
@@ -43,11 +53,9 @@ var SampleApp = function () {
                 'index.html': ''
             };
         }
-
         //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./public/index.html');
+        self.zcache['index.html'] = fs.readFileSync(path.join(CONFIG.VIEW_DIR,'index.html'));
     };
-
 
     /**
      *  Retrieve entry (content) from cache.
@@ -56,7 +64,6 @@ var SampleApp = function () {
     self.cache_get = function (key) {
         return self.zcache[key];
     };
-
 
     /**
      *  terminator === the termination handler
@@ -72,7 +79,6 @@ var SampleApp = function () {
         console.log('%s: Node server stopped.', Date(Date.now()));
     };
 
-
     /**
      *  Setup termination handlers (for exit and a list of signals).
      */
@@ -81,87 +87,79 @@ var SampleApp = function () {
         process.on('exit', function () {
             self.terminator();
         });
-
-        // Removed 'SIGPIPE' from the list - bugz 852598.
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-            'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-        ].forEach(function (element, index, array) {
+        // Every signals
+        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM']
+            .forEach(function (element, index, array) {
                 process.on(element, function () {
                     self.terminator(element);
                 });
             });
     };
 
-
-    /*  ================================================================  */
-    /*  App server functions (main app logic here).                       */
-    /*  ================================================================  */
-
-    /**
-     *  Create the routing table entries + handlers for the application.
-     */
-    self.createRoutes = function () {
-        self.routes = {};
-
-        self.routes['/asciimo'] = function (req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
-        self.routes['/'] = function (req, res) {
-            res.setHeader('Content-Type', 'text/html');
-            res.send(self.cache_get('public/index.html'));
-        };
-
-    };
-
-
     /**
      *  Initialize the server (express) and create the routes and register
      *  the handlers.
      */
     self.initializeServer = function () {
-        self.createRoutes();
+
+        // Initialize express
         self.app = express();
 
-        // Add static content
-        self.app.use(express.static('public'));
-
-        self.app.use(bodyParser.json()); // for parsing application/json
-        self.app.use(bodyParser.urlencoded({
-            extended: true
-        })); // for parsing application/x-www-form-urlencoded
-
-        //  Add handlers for the app (from the routes).
-        for (var r in self.routes) {
-            console.log("Adding route " + r + " for " + self.routes[r]);
-            self.app.get(r, self.routes[r]);
+        // Logger
+        if (self.app.get('env') !== 'production') {
+            var accessLogStream = fs.createWriteStream(path.join(CONFIG.LOGS_DIR,'/access.log') , {flags: 'a'});
+            self.app.use(logger('combined', {stream: accessLogStream}));
         }
 
-        // Add POST routes for Sending email
-        self.app.post('/email', function (req, res) {
-            var emailto = req.body.emailto;
-            var websitename = req.body.websitename;
-            var formName = req.body.formName;
-            var formEmail = req.body.formEmail;
-            var formSubject = req.body.formSubject;
-            var formMessage = req.body.formMessage;
-
-            function sendEmailError(err) {
-                console.error(err);
-                return res.status(500).send('Impossible to send mail :' + err);
+        // Add static content
+        var options = {
+            dotfiles: 'ignore',
+            etag: false,
+            extensions: ['htm', 'html'],
+            index: false,
+            maxAge: '1d',
+            redirect: false,
+            setHeaders: function (res, path, stat) {
+                res.set('x-timestamp', Date.now());
             }
+        };
+        self.app.use(express.static(CONFIG.VIEW_DIR, options));
+        self.app.set('views', express.static(CONFIG.VIEW_DIR));
+        self.app.engine('ejs', ejs.renderFile);
+        self.app.set('view engine', 'ejs');
 
-            function sendEmailSuccess(message) {
-                console.log(message);
-                res.status(200).send('Email sent ' + message);
-            }
+        // Application capabilities
+        self.app.use(bodyParser.json()); // for parsing application/json
+        self.app.use(bodyParser.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
-            return sendEmail.send(sendEmailError, emailto, websitename, formName, formEmail, formSubject, formMessage, sendEmailSuccess);
+        // Cookie parser
+        self.app.use(cookieParser());
 
-        });
+        // Session handler
+        var sess = {
+            store: new FileStore,
+            secret: 'keyboard cat',
+            resave: true,
+            saveUninitialized: true,
+            cookie: { }
+        };
+        if (self.app.get('env') === 'production') {
+            self.app.set('trust proxy', 1); // trust first proxy
+            sess.cookie.secure = true; // serve secure cookies
+        }
+        self.app.use(session(sess));
+
+        // Cookie Parser
+        self.app.use(cookieParser());
+
+        // Mount the router on app
+        self.app.use('/', require(path.join(CONFIG.BASE_DIR,'routes.js'))(router));
+
+        // ErrorHandler for non production env
+        if (self.app.get('env') !== 'production') {
+            self.app.use(errorhandler());
+        }
     };
-
 
     /**
      *  Initializes the sample application.
@@ -170,30 +168,42 @@ var SampleApp = function () {
         self.setupVariables();
         self.populateCache();
         self.setupTerminationHandlers();
-
-        // Create the express server and routes.
         self.initializeServer();
     };
+
 
 
     /**
      *  Start the server (starts up the sample application).
      */
     self.start = function () {
-        //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function () {
-            console.log('%s: Node server started on %s:%d ...',
-                Date(Date.now()), self.ipaddress, self.port);
+
+        // Create HTTPS
+        self.httpSecureServer = https.createServer({
+            key: fs.readFileSync(path.join(CONFIG.SSL_DIR) + '/server.key'),
+            cert: fs.readFileSync(path.join(CONFIG.SSL_DIR) + '/server.crt'),
+            ca: fs.readFileSync(path.join(CONFIG.SSL_DIR) + '/ca.crt'),
+            requestCert: true,
+            rejectUnauthorized: false
+        }, self.app).listen(self.https_port, self.ipaddress, function() {
+            console.log('%s: Node SECURE server started on %s:%d ...',
+                Date(Date.now()), self.ipaddress, self.https_port);
         });
+
+        // Create HTTP
+        self.httpServer = http.createServer(self.app)
+            .listen(self.http_port, self.ipaddress, function () {
+            console.log('%s: Node server started on %s:%d ...',
+                Date(Date.now()), self.ipaddress, self.http_port);
+        });
+
     };
 
 };
-/*  Sample Application.  */
-
 
 /**
  *  main():  Main code.
  */
-var zapp = new SampleApp();
-zapp.initialize();
-zapp.start();
+var serverApp = new ServerApp();
+serverApp.initialize();
+serverApp.start();

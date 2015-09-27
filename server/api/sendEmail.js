@@ -1,11 +1,5 @@
 var nodemailer = require("nodemailer");
-// create reusable transporter object using SMTP transport
-
-var CONFIG = {
-    "SERVICE": "Gmail",
-    "USER": "vincent.dagoury@gmail.com",
-    "PASSWORD": "uagodymudpcwpstq"
-};
+var CONFIG = require("../config.js");
 
 function sendMail() {
     var transporter = nodemailer.createTransport({
@@ -25,7 +19,7 @@ function sendMail() {
                 to: pEmailto, // list of receivers
                 subject: "[" + pWebsitename + "]:From " + pEmail + ":" + pSubject, // Subject line
                 text: "From :" + pName + "<" + pEmail + ">" + " :\n" + "Subject : " + pSubject + "\n"+ pMessage, // plaintext body
-                html:   "From : <a emailto='" + pEmail + "'>"+ pEmail + "</a>" 
+                html:   "From : <a emailto='" + pEmail + "'>"+ pEmail + "</a>"
                         +  "<h2>Subject : " + pSubject + "</h2>"
                         + "<p>" + pMessage +"</p>" // html body
             };
