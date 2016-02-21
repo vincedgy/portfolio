@@ -30,9 +30,8 @@ gulp.task('lint', function () {
         .pipe(jshint())
         // You can look into pretty reporters as well, but that's another story
         .pipe(jshint.reporter(stylish))
-        .pipe(notify({
-            message: 'lint task complete'
-        }));
+        //.pipe(notify({ message: 'lint task complete' }))
+        ;
 });
 
 // TypeScript task
@@ -45,9 +44,8 @@ gulp.task('typescript', function () {
     return tsResult.js.pipe(gulp.dest('src/js'))
         .on('error', gutil.log)
         .on('error', gutil.beep)
-        .pipe(notify({
-            message: 'TypeScript task complete'
-        }));
+        //.pipe(notify({ message: 'TypeScript task complete' }))
+        ;
 });
 
 // Clean
@@ -65,9 +63,8 @@ gulp.task('images', function () {
         })))
         .pipe(rename({dirname: 'public/img'}))
         .pipe(gulp.dest('./'))
-        .pipe(notify({
-            message: 'Images task complete'
-        }));
+        //.pipe(notify({ message: 'Images task complete' }))
+        ;
 });
 
 // Task which compile less files and minify
@@ -79,9 +76,8 @@ gulp.task('less', function () {
          suffix: '.min'
          }))*/
         .pipe(gulp.dest('./src/css'))
-        .pipe(notify({
-            message: 'less task complete'
-        }));
+        //.pipe(notify({ message: 'less task complete' }))
+        ;
 });
 
 // Task which compile sass files to css and minify
@@ -95,9 +91,8 @@ gulp.task('sass', function () {
          suffix: '.min'
          }))*/
         .pipe(gulp.dest('src/css'))
-        .pipe(notify({
-            message: 'sass task complete'
-        }));
+        //.pipe(notify({ message: 'sass task complete' }))
+        ;
 });
 
 // Task which get all css files contat to one and minify
@@ -106,9 +101,8 @@ gulp.task('styles', function () {
         .pipe(minifycss())
         .pipe(concat('main.min.css'))
         .pipe(gulp.dest('public/css'))
-        .pipe(notify({
-            message: 'styles task complete'
-        }));
+        //.pipe(notify({ message: 'styles task complete' }))
+        ;
 
     return gulp.src('src/fonts/**/*.*')
         .pipe(gulp.dest('public/fonts'));
@@ -119,9 +113,8 @@ gulp.task('styles', function () {
 gulp.task('ngAnnotate', function () {
     return gulp.src(['src/*.js', 'src/js/*.js', 'src/js/**/*.js', '!src/api/**/*.js'])
         .pipe(ngAnnotate())
-        .pipe(notify({
-            message: 'ngAnnotate task complete'
-        }));
+        //.pipe(notify({ message: 'ngAnnotate task complete' }))
+        ;
 });
 
 // Scripts
@@ -129,7 +122,7 @@ gulp.task('scripts', function () {
     return gulp.src(['src/*.js', 'src/js/*.js'])
         .pipe(ngAnnotate())
          .on('error', gutil.log)
-         .on('error', gutil.beep)
+         //.on('error', gutil.beep)
          /*.pipe(uglify({
          global_defs: {
          DEBUG: false
@@ -140,9 +133,8 @@ gulp.task('scripts', function () {
          suffix: '.min'
          }))
         .pipe(gulp.dest('public/js'))
-        .pipe(notify({
-            message: 'Scripts task complete'
-        }));
+        //.pipe(notify({ message: 'Scripts task complete' }))
+        ;
 });
 
 // allscr task
@@ -164,9 +156,8 @@ gulp.task('build-api', function () {
         'src/api/**/*.js'])
         .pipe(rename({dirname: 'public/api'}))
         .pipe(gulp.dest('./'))
-        .pipe(notify({
-            message: 'build-api task complete'
-        }));
+        //.pipe(notify({ message: 'build-api task complete' }))
+        ;
 });
 
 // build-api maps
@@ -177,9 +168,8 @@ gulp.task('build-api-map', function () {
         'src/api/**/dist/*.min.js.map'])
         .pipe(rename({dirname: 'public/assets/api'}))
         .pipe(gulp.dest('./'))
-        .pipe(notify({
-            message: 'build-api-map task complete'
-        }));
+        //.pipe(notify({ message: 'build-api-map task complete' }))
+        ;
 });
 
 
@@ -191,9 +181,8 @@ gulp.task('start', function () {
             'NODE_ENV': 'development'
         }
     })
-        .pipe(notify({
-            message: 'start task complete'
-        }));
+        //.pipe(notify({ message: 'start task complete' }))
+        ;
 });
 
 gulp.task('minify-html', function () {
@@ -204,9 +193,8 @@ gulp.task('minify-html', function () {
     return gulp.src(['./src/templates/*.html', './src/index.html'])
         .pipe(minifyHTML(opts))
         .pipe(gulp.dest('./public/'))
-        .pipe(notify({
-            message: 'minify-html task complete'
-        }));
+        //.pipe(notify({ message: 'minify-html task complete' }))
+        ;
 });
 
 // Watch

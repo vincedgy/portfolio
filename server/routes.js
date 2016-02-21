@@ -12,13 +12,6 @@ module.exports = function(router) {
     // Add POST routes for Sending email
     router.use('/email', require(path.join(config.CTRL_DIR, 'post-mail.js')));
 
-    // 404 Page
-    router.get('*', function(req, res, next) {
-        var err = new Error();
-        err.status = 404;
-        next(err);
-    });
-
     // Return the router to application
     return router;
 };

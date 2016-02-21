@@ -13,33 +13,39 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <!-- Basic Page Needs
-        ================================================== -->
+          ================================================== -->
     <meta charset="UTF-8">
     <title>Vincent Dagoury's Portfolio</title>
     <meta name="description" content="Vincent Dagoury's Portfolio">
     <meta name="author" content="VinceDgy">
 
     <!-- Mobile Specific Metas
-        ================================================== -->
+          ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Favicons
-        ================================================== -->
+          ================================================== -->
     <link rel='shortcut icon' href='img/favicon.ico'>
 
     <!--  API CSS
-    ================================================== -->
+      ================================================== -->
     <!--link rel="stylesheet" href="./api/jquery.sidr.dark.css" type="text/css" media="all"-->
 
     <!-- CSS
-        ================================================== -->
+          ================================================== -->
     <link rel="stylesheet" href="./css/main.min.css" type="text/css" media="all">
 
+    <!--BootStrap-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" media="all">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" async></script>-->
 
     <!-- Google Fonts
-        ================================================== -->
+          ================================================== -->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic,400italic,900italic' rel='stylesheet'
           type='text/css'>
+
+    <!--ReCaptcha-->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body class="fullwidth boxed " data-device="" data-maxcols="" ng-app="portfolio">
@@ -141,9 +147,9 @@
                     <div class="col dim1third">
                         <h3>AngularJS addict</h3>
 
-                        <p>Since the early beginning of AngularJS, I've spent night and day on my keyboards trying and
-                            learning. The handsome framework has given me the oppotunity to learn JavaScript in
-                            depth.</p>
+                        <p>Since the early beginning of AngularJS, I've spent nights and days on my keyboard trying and
+                            learning. The handsome framework has given me the oppotunity to learn JavaScript in depth.
+                        </p>
 
                     </div>
 
@@ -151,8 +157,8 @@
                         <h3>Full Stack Java and more</h3>
 
                         <p>Even if my first language was the BASIC language, I threw myself into Java from the start of
-                            my career, struggling with complex objects API and built fantastic joyful pieces of
-                            code.</p>
+                            my career, struggling with complex objects API and built fantastic joyful pieces of code.
+                        </p>
                     </div>
 
                     <span class="clear"></span>
@@ -209,58 +215,49 @@
 
         <div class="row">
 
-            <div class="col dimfull text-center o-items-container">
+            <div class="col dimfull text-center">
 
                 <h2>My hot spots</h2>
 
                 <p class="intro">These are few links of mine</p>
 
-                <ul data-target="o-container" class="btn-nav o-filters centered">
-                    <li class="active"><a data-filter="*" href="#">All</a></li>
-                    <li><a data-filter=".o-filterable-cat1" href="#">Projects</a></li>
-                    <li><a data-filter=".o-filterable-cat2" href="#">Music and stuffs</a></li>
-                </ul>
 
-                <div class="row isotope o-items-container format-mosaic o-index" data-cols="3" id="o-container">
-
-                    <div class="post hentry col isotope-item o-item o-filterable-cat1" data-cols="1" id="item-1">
-                        <div class="inner-hentry">
-                            <div class="posthead">
-                                <a href="https://plus.google.com/+VinceDgy">
-                                    <img src="http://ssl.gstatic.com/images/branding/google_plus/2x/gplus_word_108x30dp.png"
-                                         alt="Google+" class="fader"/>
-                                </a>
-                            </div>
-
-                        </div>
-                        <!-- /.inner-hentry -->
+                <div class="row dimfull">
+                    <div id="filters" class="button-group o-filters">
+                        <button class="button is-checked" data-filter="*">Show all</button>
+                        <button class="button" data-filter=".o-filterable-cat1">Projects</button>
+                        <button class="button" data-filter=".o-filterable-cat2">Music and stuffs</button>
                     </div>
-                    <!-- /.col .o-item -->
+                </div>
 
-                    <div class="post hentry col o-item o-filterable-cat2" data-cols="1" id="item-2">
-                        <div class="inner-hentry">
-                            <div class="posthead">
-                                <a href='https://www.youtube.com/user/DagouryVincent/videos'>
-                                    <img src="https://www.youtube.com/yt/brand/media/image/yt-brand-flattype-1.png"
-                                         alt="YouTube" class="fader"/>
-                                </a>
-                            </div>
-                        </div>
+                <div class="isotope row dimfull">
+
+                    <div class="element-item o-filterable-cat2">
+                        <a href="https://plus.google.com/+VinceDgy">
+                            <img src="http://ssl.gstatic.com/images/branding/google_plus/2x/gplus_word_108x30dp.png"
+                                 alt="Google+"/>
+                        </a>
                     </div>
-                    <!-- /.inner-hentry -->
 
-                    <div class="post hentry col o-item o-filterable-cat1" data-cols="1" id="item-3">
-                        <div class="inner-hentry">
-                            <div class="posthead">
-                                <a href="https://github.com/vincedgy">
-                                    <img src="http://cdn.flaticon.com/png/256/3641.png" alt="GitHub" class="fader"/>
-                                </a>
-                            </div>
-
-                        </div>
-                        <!-- /.inner-hentry -->
+                    <div class="element-item o-filterable-cat2">
+                        <a href='https://www.youtube.com/user/DagouryVincent/videos'>
+                            <img src="https://www.youtube.com/yt/brand/media/image/yt-brand-flattype-1.png"
+                                 alt="YouTube"/>
+                        </a>
                     </div>
-                    <!-- /.col .o-item -->
+
+                    <div class="element-item o-filterable-cat1" data-category="o-filterable-cat1">
+                        <a href="https://github.com/vincedgy">
+                            <img src="http://cdn.flaticon.com/png/256/3641.png" alt="GitHub"/>
+                        </a>
+                    </div>
+
+                    <div class="element-item o-filterable-cat1" data-category="o-filterable-cat1">
+                        <a href="https://plnkr.co/users/vincedgy">
+                            <img src="https://www.gravatar.com/avatar/?s=260" alt="Plunker"/>
+                        </a>
+                    </div>
+
 
                 </div>
                 <!-- /.col .o-item -->
@@ -297,8 +294,8 @@
                 <h2>My resumé</h2>
 
                 <div class="more">
-                <a href="https://fr.linkedin.com/in/vincentdagoury" class="btn action-button shadow animate blue">
-                    <span class="glyphicons linked_in"><i></i></span>LinkedIn</a>
+                    <a href="https://fr.linkedin.com/in/vincentdagoury" class="btn action-button shadow animate blue">
+                        <span class="glyphicons linked_in"><i></i></span>LinkedIn</a>
 
                 </div>
                 <p class="intro">Former and present projects, my experience and skills.</p>
@@ -375,49 +372,49 @@
                 <form id="contact-form" method="post" action="#contact-form" class="text-left"
                       data-form-action="/email">
 
-                    <div class="email-confirmation hidden">
-                        <span class="glyphicons ok_2"><i></i></span> Email Success
+                    <div class="email-message email-confirmation hidden">
+                        <span id="email-confirmation-success"><span class="glyphicons ok_2"><i></i></span>Email Success</span>
                     </div>
-                    <div class="email-error hidden">
-                        <span class="glyphicons remove_2"><i></i></span> Email Error
+                    <div class="email-message email-error hidden">
+                        <span id="email-confirmation-error"><span class="glyphicons remove_2"><i></i></span>Email Error</span>
                     </div>
 
-                    <input type="hidden" name="emailto" value="vincent.dagoury@gmail.com">
-                    <input type="hidden" name="websitename" value="portfolio-vincedgy">
+                    <input type="hidden" name="emailto" value="vincent.dagoury@gmail.com" required>
+                    <input type="hidden" name="websitename" value="portfolio-vincedgy" required>
 
                     <p>
                         <label for="formName">Name</label>
-                        <input type="text" class="mandatory" placeholder="Your name" id="formName" name="formName"
-                               value="">
-              <span class="error-message hidden">
-                <span class="glyphicons ban"><i></i></span> Missing Name</span>
+                        <input type="text" class="mandatory" placeholder="Your name" id="formName" name="formName" value="" required>
+                        <span class="error-message hidden">
+                        <span class="glyphicons ban"><i></i></span>Missing Name</span>
                     </p>
 
                     <p>
                         <label for="formEmail">Email</label>
-                        <input type="text" class="mandatory" placeholder="Your email" id="formEmail" name="formEmail"
-                               value="">
+                        <input type="email" class="mandatory" placeholder="Your email" id="formEmail" name="formEmail" value="" required>
               <span class="error-message hidden">
                 <span class="glyphicons ban"><i></i></span> Missing or invalid Email</span>
                     </p>
 
                     <p>
                         <label for="formSubject">Subject</label>
-                        <input type="text" placeholder="Email Subject" id="formSubject" name="formSubject" value="">
+                        <input type="text" placeholder="Email Subject" id="formSubject" name="formSubject" value="" required>
                     </p>
 
                     <p>
                         <label for="formMessage">Message</label>
                         <textarea rows="6" class="mandatory" placeholder="Your message" id="formMessage"
-                                  name="formMessage"></textarea>
-              <span class="error-message hidden">
-                <span class="glyphicons ban"><i></i></span> Missing Mail Message</span>
+                                  name="formMessage" required></textarea>
+                        <span class="error-message hidden">
+                        <span class="glyphicons ban"><i></i></span> Missing Mail Message</span>
                     </p>
                     <span class="clear"></span>
-
                     <p>
-                        <button type="submit" class="btn action-button shadow animate blue" name="form-submit">Submit</button>
+                        <button type="submit" class="btn action-button shadow animate blue" name="form-submit">Submit
+                        </button>
+                        <div class="g-recaptcha pull-right"  data-sitekey="6Le6yhgTAAAAAIMPwKF3Oq6f1mGaA1SkLyMti_zd"></div>
                     </p>
+
 
                 </form>
 
@@ -435,28 +432,15 @@
 <!-- /#contact -->
 
 <div id="copyright">
-
     <div class="container wrap">
-
         <div class="row">
 
             <div class="col dimfull text-center">
-
                 <p>&copy; 2015
                     <em>Vincent Dagoury</em>.
-                    <!-- Theme design
-                                    Theme design by <a href="http://themeforest.net/user/ocholabs/portfolio?ref=ocholabs">Ocholabs</a></p> -->
-
-
             </div>
-            <!-- /.col -->
-
         </div>
-        <!-- /.row  -->
-
     </div>
-    <!-- /.container -->
-
 </div>
 <!-- /#copyright -->
 
@@ -476,8 +460,7 @@
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="components/jquery.easing/js/jquery.easing.min.js"></script>
 
-<!--script type='text/javascript' src="components/isotope/dist/isotope.pkgd.min.js"></script-->
-<script type="text/javascript" src="api/jquery.isotope.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
 
 <script type="text/javascript" src="api/jquery.sidr.min.js"></script>
 
@@ -487,15 +470,15 @@
 
 <!--script>
 (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
+  i['GoogleAnalyticsObject'] = r;
+  i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+  }, i[r].l = 1 * new Date();
+  a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m)
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
 ga('create', 'UA-43780936-1', 'anna-livia.com');
