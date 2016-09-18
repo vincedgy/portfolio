@@ -225,5 +225,5 @@ gulp.task('watch-lint', function () {
 
 // Default task
 gulp.task('default', ['clean'], function () {
-    gulp.start('sass', 'less', 'styles', 'build-api', 'build-api-map', 'scripts', 'images', 'minify-html', 'watch');
+    gulp.start('sass', 'less', 'styles', 'build-api', 'build-api-map', 'scripts', 'images', 'minify-html');
 });

@@ -25,6 +25,11 @@ var express = require('express'),
 
 var CONFIG = require(path.join(__dirname,'server/config'));
 
+var address = "";
+require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+  console.log('addr: '+add);
+  address = add;
+});
 
 /**
  * ServerApp : defines the whole server
